@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <defs>
+    <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0f172a;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1e293b;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="accentGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#f59e0b;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#d97706;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background Circle -->
+  <circle cx="100" cy="100" r="95" fill="url(#logoGradient)" />
+  
+  <!-- Scissors Icon -->
+  <g transform="translate(50, 45)">
+    <!-- Left blade -->
+    <path d="M20 60 L20 100 Q20 110 30 110 L35 110 Q45 110 45 100 L45 60 Z" fill="url(#accentGradient)" />
+    <!-- Right blade -->
+    <path d="M75 60 L75 100 Q75 110 85 110 L90 110 Q100 110 100 100 L100 60 Z" fill="url(#accentGradient)" />
+    <!-- Handle connection -->
+    <rect x="30" y="55" width="60" height="8" rx="4" fill="#f59e0b" />
+    <!-- Center pivot -->
+    <circle cx="60" cy="59" r="6" fill="#f59e0b" />
+    <!-- Left handle -->
+    <ellipse cx="25" cy="40" rx="12" ry="18" fill="none" stroke="#f59e0b" stroke-width="4" />
+    <!-- Right handle -->
+    <ellipse cx="95" cy="40" rx="12" ry="18" fill="none" stroke="#f59e0b" stroke-width="4" />
+  </g>
+  
+  <!-- Text -->
+  <text x="100" y="165" text-anchor="middle" font-family="Arial, sans-serif" font-weight="bold" font-size="24" fill="white">HOOD</text>
+  <text x="100" y="185" text-anchor="middle" font-family="Arial, sans-serif" font-weight="bold" font-size="18" fill="#f59e0b" letter-spacing="4">BARBER</text>
+</svg>
