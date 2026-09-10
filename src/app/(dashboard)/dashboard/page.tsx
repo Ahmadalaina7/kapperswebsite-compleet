@@ -1,55 +1,32 @@
-import { createClient } from '@/lib/supabase/server';
-import { StatsCards } from '@/components/dashboard/stats-cards';
-import { AppointmentsTable } from '@/components/dashboard/appointments-table';
+import Link from 'next/link';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Calendar, TrendingUp, Users } from 'lucide-react';
 
-export default async function DashboardPage() {
-  const supabase = await createClient();
-
-  try {
-    const [{ data: today }, { data: upcoming }] = await Promise.all([
-      supabase
-        .from('appointments')
-        .select('*, barbers(name), services(name, duration_min, price_cents)')
-        .gte('start_time', new Date().toISOString().split('T')[0])
-        .lt('start_time', new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString())
-        .order('start_time'),
-      supabase
-        .from('appointments')
-        .select('*, barbers(name), services(name, duration_min, price_cents)')
-        .gte('start_time', new Date().toISOString())
-        .order('start_time')
-        .limit(10),
-    ]);
-
-    return (
-      <div className="space-y-8">
-        <div>
-          <h1 className="text-3xl font-bold mb-2">Dashboard</h1>
-          <p className="text-slate-600">Overzicht van je afspraken en statistieken</p>
-        </div>
-
-        <StatsCards today={(today as any) || []} upcoming={(upcoming as any) || []} />
-
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Calendar className="h-5 w-5" />
-              Komende afspraken
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <AppointmentsTable appointments={(upcoming as any) || []} />
-          </CardContent>
-        </Card>
+export default function DashboardPage() {
+  return (
+    <div className="space-y-8">
+      <div>
+        <h1 className="mb-2 text-3xl font-bold">Dashboard</h1>
+        <p className="text-slate-600">Beheer van afspraken</p>
       </div>
-    );
-  } catch {
-    return (
-      <div className="rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-800">
-        Kon afspraken niet laden. Probeer opnieuw.
-      </div>
-    );
-  }
+
+      <Card>
+        <CardHeader>
+          <CardTitle>Hosting zonder Node.js</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-3 text-slate-600">
+          <p>
+            Deze site draait als statische export op Plesk. Het admin-dashboard met live
+            Supabase-data vereist een Node.js-host (bijv. Vercel).
+          </p>
+          <p>
+            De publieke website en boekingsflow werken wel. Voor live afsprakenbeheer:
+            deploy naar Vercel of schakel Node.js in bij je host.
+          </p>
+          <Link href="/" className="btn-primary inline-flex">
+            Naar homepage
+          </Link>
+        </CardContent>
+      </Card>
+    </div>
+  );
 }

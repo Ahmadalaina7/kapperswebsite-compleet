@@ -5,7 +5,11 @@ import { Inter } from 'next/font/google';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000'),
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_SITE_URL && !/yourdomain/i.test(process.env.NEXT_PUBLIC_SITE_URL)
+      ? process.env.NEXT_PUBLIC_SITE_URL
+      : 'https://hoodbarber.webnestiq.nl'
+  ),
   title: 'Hood Barber | Herenkapsalon Vlissingen - Boek Direct Online',
   description:
     'Hood Barber is dé herenkapsalon van Vlissingen. Haar knippen, contouren en baardverzorging door Fikri. Boek je afspraak 24/7 online.',

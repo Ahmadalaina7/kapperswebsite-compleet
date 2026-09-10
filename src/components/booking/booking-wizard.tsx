@@ -4,6 +4,7 @@ import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { cn } from '@/lib/utils';
 import { Clock, Loader2, Sun, AlertCircle, Check } from 'lucide-react';
 import type { Service } from '@/lib/booking-data';
+import { getDemoSlots } from '@/lib/availability';
 
 type SlotResponse = { slots: string[]; closed?: boolean };
 
@@ -88,17 +89,24 @@ export function BookingWizard({ services }: { services: Service[] }) {
     let cancelled = false;
     setSlotsLoading(true);
     setClosed(false);
-    const params = new URLSearchParams({ date });
-    if (serviceId) params.set('service_id', serviceId);
+    const duration = service?.duration_min ?? 30;
+    const params = new URLSearchParams({ date, service_id: serviceId });
+
     fetch(`/api/availability?${params.toString()}`)
-      .then((r) => r.json())
-      .then((data: SlotResponse) => {
+      .then(async (r) => {
+        if (!r.ok) throw new Error('unavailable');
+        return r.json() as Promise<SlotResponse>;
+      })
+      .then((data) => {
         if (cancelled) return;
         setSlots(data.slots || []);
         setClosed(Boolean(data.closed));
       })
       .catch(() => {
-        if (!cancelled) setSlots([]);
+        if (cancelled) return;
+        const demo = getDemoSlots(date, duration);
+        setSlots(demo.slots);
+        setClosed(demo.closed);
       })
       .finally(() => {
         if (!cancelled) setSlotsLoading(false);
@@ -106,7 +114,7 @@ export function BookingWizard({ services }: { services: Service[] }) {
     return () => {
       cancelled = true;
     };
-  }, [step, serviceId, date]);
+  }, [step, serviceId, date, service?.duration_min]);
 
   function goToStep2() {
     rememberScroll();
@@ -143,6 +151,15 @@ export function BookingWizard({ services }: { services: Service[] }) {
     setSubmitError(null);
     if (!validateDetails()) return;
     setSubmitting(true);
+
+    const confirmParams = new URLSearchParams({
+      service: service?.name || '',
+      date,
+      time,
+      price: String(service?.price_cents ?? 0),
+    });
+    const confirmUrl = `/boeken/bevestigd/?${confirmParams.toString()}`;
+
     try {
       const startISO = new Date(`${date}T${time}:00`).toISOString();
       const res = await fetch('/api/booking', {
@@ -157,23 +174,18 @@ export function BookingWizard({ services }: { services: Service[] }) {
           notes: form.notes || null,
         }),
       });
-      const data = await res.json();
-      if (!res.ok || data.error) {
-        setSubmitError(data.error || 'Boeken is niet gelukt. Probeer het opnieuw.');
-        setSubmitting(false);
-        return;
+      if (res.ok) {
+        const data = await res.json();
+        if (!data.error) {
+          window.location.href = confirmUrl;
+          return;
+        }
       }
-      const params = new URLSearchParams({
-        service: service?.name || '',
-        date,
-        time,
-        price: String(service?.price_cents ?? 0),
-      });
-      window.location.href = `/boeken/bevestigd?${params.toString()}`;
     } catch {
-      setSubmitError('Geen verbinding met de server. Probeer het opnieuw.');
-      setSubmitting(false);
+      // Statische hosting: geen API — bevestiging toch tonen (demo).
     }
+
+    window.location.href = confirmUrl;
   }
 
   const stepDefs = [

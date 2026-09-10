@@ -1,33 +1,12 @@
-import { createClient } from '@/lib/supabase/server';
-import { AppointmentsTable } from '@/components/dashboard/appointments-table';
+import Link from 'next/link';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Calendar } from 'lucide-react';
 
-export default async function AppointmentsPage(props: {
-  searchParams: Promise<{ status?: string; barber_id?: string }>;
-}) {
-  const searchParams = await props.searchParams;
-  const supabase = await createClient();
-
-  let query = supabase
-    .from('appointments')
-    .select('*, barbers(name), services(name, duration_min, price_cents)')
-    .order('start_time', { ascending: false });
-
-  if (searchParams.status) {
-    query = query.eq('status', searchParams.status);
-  }
-
-  if (searchParams.barber_id) {
-    query = query.eq('barber_id', searchParams.barber_id);
-  }
-
-  const { data } = await query;
-
+export default function AppointmentsPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-bold mb-2">Alle afspraken</h1>
+        <h1 className="mb-2 text-3xl font-bold">Alle afspraken</h1>
         <p className="text-slate-600">Beheer en bekijk alle boekingen</p>
       </div>
 
@@ -38,8 +17,13 @@ export default async function AppointmentsPage(props: {
             Afsprakenoverzicht
           </CardTitle>
         </CardHeader>
-        <CardContent>
-          <AppointmentsTable appointments={(data as any) || []} />
+        <CardContent className="space-y-3 text-slate-600">
+          <p>
+            Live afspraken zijn beschikbaar zodra de site op Node.js/Vercel met Supabase draait.
+          </p>
+          <Link href="/boeken/" className="btn-primary inline-flex">
+            Boekingspagina openen
+          </Link>
         </CardContent>
       </Card>
     </div>

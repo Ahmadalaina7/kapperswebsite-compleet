@@ -23,3 +23,29 @@ export function hhmmFromMinutes(total: number): string {
   const m = total % 60;
   return `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`;
 }
+
+/** Lokale demo-slots voor statische hosting zonder API. */
+export function getDemoSlots(dateStr: string, durationMin = 30): { slots: string[]; closed: boolean } {
+  const day = new Date(`${dateStr}T00:00:00`);
+  if (Number.isNaN(day.getTime())) return { slots: [], closed: true };
+
+  const hours = OPENING_HOURS[day.getDay()];
+  if (!hours?.open || !hours?.close) return { slots: [], closed: true };
+
+  const openMin = minutesFromHHMM(hours.open);
+  const closeMin = minutesFromHHMM(hours.close);
+  const now = new Date();
+  const isToday =
+    now.getFullYear() === day.getFullYear() &&
+    now.getMonth() === day.getMonth() &&
+    now.getDate() === day.getDate();
+  const earliest = isToday
+    ? Math.max(openMin, now.getHours() * 60 + now.getMinutes() + MIN_LEAD_MINUTES)
+    : openMin;
+
+  const slots: string[] = [];
+  for (let t = openMin; t + durationMin <= closeMin; t += SLOT_STEP_MINUTES) {
+    if (t >= earliest) slots.push(hhmmFromMinutes(t));
+  }
+  return { slots, closed: false };
+}

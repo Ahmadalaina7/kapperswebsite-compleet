@@ -101,16 +101,28 @@ E-mails worden verzonden via Resend met professionele HTML templates.
 
 ## 🚢 Deployen
 
-### Vercel (aanbevolen)
+### Plesk / shared hosting (huidige setup)
+
+Deze repo bouwt een **statische** site in de map `out/`.
+
+1. Lokaal: `npm install` en `npm run build`
+2. Commit + push (inclusief de map `out/` en `.htaccess`)
+3. In Plesk: **Pull updates** op het subdomein
+
+`.htaccess` stuurt bezoekers naar `out/`, zodat https://hoodbarber.webnestiq.nl/ de site toont.
+
+### Vercel (voor live boekingen + dashboard)
 
 ```bash
 npm run build
 vercel --prod
 ```
 
+Vergeet environment variables niet. Voor Vercel: zet `output: 'export'` uit en zet `src/legacy-api` terug naar `src/app/api`.
+
 ### Environment variables op production
 
-Vergeet niet alle environment variables in te stellen in je hosting platform.
+Vul echte Supabase/Resend keys in `.env.local` vóór je bouwt (NEXT_PUBLIC_* komt in de static build).
 
 ## 📄 License
 

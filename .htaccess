@@ -1,0 +1,17 @@
+# Serve the static Next.js export from /out on Plesk/LiteSpeed.
+# Document root remains the Git checkout; this rewrites into out/.
+
+DirectoryIndex out/index.html
+
+RewriteEngine On
+
+# Keep real files in out/ reachable without rewrite loops
+RewriteRule ^out/ - [L]
+
+# Prefer files/dirs that already exist at the repo root (e.g. public assets if needed)
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# Map everything else into the static export
+RewriteRule ^(.*)$ out/$1 [L]

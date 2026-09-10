@@ -1,5 +1,3 @@
-import { createServerReadClient } from '@/lib/supabase/server-client';
-import { supabaseStatus } from '@/lib/supabase-status';
 import { BookingWizard } from '@/components/booking/booking-wizard';
 import { CalendarDays } from 'lucide-react';
 
@@ -14,21 +12,7 @@ const FALLBACK_SERVICES = [
   { id: 'fallback-haarbaard', name: 'Haar + baard', description: 'Knipbeurt plus baard trimmen en vormgeven', duration_min: 45, price_cents: 1800, active: true },
 ];
 
-export default async function BookingPage() {
-  const { configured } = supabaseStatus();
-
-  let services: unknown[] = FALLBACK_SERVICES;
-
-  if (configured) {
-    const supabase = await createServerReadClient();
-    const { data: dbServices } = await supabase
-      .from('services')
-      .select('id, name, description, duration_min, price_cents, active')
-      .eq('active', true)
-      .order('name');
-    if (dbServices && dbServices.length > 0) services = dbServices;
-  }
-
+export default function BookingPage() {
   return (
     <div className="bg-slate-50">
       <div className="mx-auto max-w-3xl px-4 py-12 md:py-16">
@@ -43,7 +27,7 @@ export default async function BookingPage() {
         </div>
 
         <div className="rounded-[2rem] border border-slate-200/70 bg-white p-6 shadow-xl shadow-slate-900/5 md:p-10">
-          <BookingWizard services={services as never} />
+          <BookingWizard services={FALLBACK_SERVICES} />
         </div>
 
         <p className="mt-6 text-center text-sm text-slate-500">
