@@ -70,7 +70,7 @@ export default function HomePage() {
             <div className="mb-6 inline-flex items-center rounded-full border border-primary-500/30 bg-primary-500/10 px-3 py-1 text-sm text-primary-300">
               <Star className="mr-2 h-4 w-4" /> Premium herenkapper in Vlissingen sinds 2019
             </div>
-            <h1 className="mb-6 text-5xl font-bold tracking-tight md:text-7xl">
+            <h1 className="mb-6 text-4xl font-bold tracking-tight sm:text-5xl md:text-7xl">
               De kapper voor <br />
               <span className="bg-gradient-to-r from-primary-300 to-primary-500 bg-clip-text text-transparent">
                 echte mannen
@@ -110,7 +110,7 @@ export default function HomePage() {
       </section>
 
       {/* Services */}
-      <section id="diensten" className="scroll-mt-20 py-24">
+      <section id="diensten" className="scroll-mt-28 py-24">
         <div className="mx-auto max-w-7xl px-4">
           <div className="mb-16 max-w-2xl">
             <span className="text-sm font-semibold uppercase tracking-widest text-primary-600">Onze diensten</span>
@@ -151,7 +151,7 @@ export default function HomePage() {
       </section>
 
       {/* De kapper */}
-      <section id="kapper" className="scroll-mt-20 bg-slate-950 py-24 text-white">
+      <section id="kapper" className="scroll-mt-28 bg-slate-950 py-24 text-white">
         <div className="mx-auto max-w-7xl px-4">
           <div className="mb-16 max-w-2xl">
             <span className="text-sm font-semibold uppercase tracking-widest text-primary-400">De kapper</span>
@@ -197,7 +197,7 @@ export default function HomePage() {
       </section>
 
       {/* Gallery */}
-      <section id="galerij" className="scroll-mt-20 py-24">
+      <section id="galerij" className="scroll-mt-28 py-24">
         <div className="mx-auto max-w-7xl px-4">
           <div className="mb-16 max-w-2xl">
             <span className="text-sm font-semibold uppercase tracking-widest text-primary-600">Galerij</span>
@@ -224,7 +224,7 @@ export default function HomePage() {
       </section>
 
       {/* Over ons */}
-      <section id="over" className="scroll-mt-20 bg-white py-24">
+      <section id="over" className="scroll-mt-28 bg-white py-24">
         <div className="mx-auto grid max-w-7xl items-center gap-16 px-4 md:grid-cols-2">
           <div className="relative aspect-[4/3] overflow-hidden rounded-[2rem]">
             <Image src="/images/gallery-tools.jpg" alt="Gereedschap van de barber" fill sizes="(max-width: 768px) 100vw, 50vw" className="object-cover" />
@@ -288,7 +288,7 @@ export default function HomePage() {
       </section>
 
       {/* FAQ */}
-      <section id="faq" className="scroll-mt-20 bg-slate-50 py-24">
+      <section id="faq" className="scroll-mt-28 bg-slate-50 py-24">
         <div className="mx-auto max-w-3xl px-4">
           <div className="mb-12 text-center">
             <span className="text-sm font-semibold uppercase tracking-widest text-primary-600">Veelgestelde vragen</span>
@@ -311,7 +311,7 @@ export default function HomePage() {
       {/* CTA */}
       <section className="py-24">
         <div className="mx-auto max-w-7xl px-4">
-          <div className="relative overflow-hidden rounded-[2.5rem] bg-slate-950 p-12 text-center text-white md:p-20">
+          <div className="relative overflow-hidden rounded-[2.5rem] bg-slate-950 p-8 text-center text-white sm:p-12 md:p-20">
             <Image
               src="/images/gallery-shop.jpg"
               alt=""
@@ -333,7 +333,7 @@ export default function HomePage() {
       </section>
 
       {/* Contact */}
-      <section id="contact" className="scroll-mt-20 bg-slate-50 py-24">
+      <section id="contact" className="scroll-mt-28 bg-slate-50 py-24">
         <div className="mx-auto max-w-7xl px-4">
           <div className="grid gap-12 md:grid-cols-2">
             <div>

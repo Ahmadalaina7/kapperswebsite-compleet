@@ -320,7 +320,7 @@ export function BookingWizard({ services }: { services: Service[] }) {
                     setTime('');
                   }}
                   className={cn(
-                    'flex w-16 shrink-0 flex-col items-center rounded-2xl border px-2 py-3 transition-all',
+                    'flex min-w-[4.25rem] shrink-0 flex-col items-center rounded-2xl border px-2 py-3 transition-all',
                     date === d
                       ? 'border-primary-600 bg-primary-600 text-white shadow-glow'
                       : 'border-slate-200 bg-white text-slate-700 hover:border-primary-300'
